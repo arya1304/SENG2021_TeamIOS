@@ -30,4 +30,4 @@ class OrderAdvice(BaseModel):
     customer_details : Customer
     list_of_items : List[Item]
 
-#create a pydantic model for the despatch advice and all 
+#create a pydantic model for the despatch advice  
