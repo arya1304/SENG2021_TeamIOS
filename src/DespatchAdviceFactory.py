@@ -6,19 +6,10 @@ import xml.etree.ElementTree as ET
 import uuid
 
 class DespatchAdviceFactory :
-    #create despatch advice
-    @abstractmethod
-    def create_despatch_advice(orderAdivce: models2.Order, shipment: models.CacShipment) -> models.DespatchAdvice :
-        #will return a peydantic model of the despatch advice
-        
-        
-
-        pass
-
     #create each component of the despatch advice
 
     #create order reference
-    def create_order_reference(orderAdvice: models2.Order) -> models.CacOrderReference:
+    def create_order_reference(self, orderAdvice: models2.Order) -> models.CacOrderReference:
         order_dict = orderAdvice.model_dump()
         lineItem_dict = orderAdvice.cac_OrderLine.cac_LineItem.model_dump()
         order_ref = models.CacOrderReference(
@@ -49,6 +40,11 @@ class DespatchAdviceFactory :
     def despatch_line(orderAdvice: models2.Order):
         pass
 
+    #create despatch advice
+    def create_despatch_advice(self, orderAdivce: models2.Order, shipment: models.CacShipment) -> models.DespatchAdvice :
+        #will return a peydantic model of the despatch advice
+        order_ref = self.create_order_reference(orderAdivce) 
+        return 
     #convert it into xml format
 
     #https://docs.oasis-open.org/ubl/os-UBL-2.4/xml/UBL-DespatchAdvice-2.0-Example.xml 
