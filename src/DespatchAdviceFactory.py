@@ -47,23 +47,41 @@ class DespatchAdviceFactory :
     #each item has its own despatch line 
 
     def create_despatch_line(self, orderAdvice: models2.Order) -> models.CacDespatchLine:
-        despatch_line_dict = orderAdvice.cac_OrderLine
+        order = orderAdvice.cac_OrderLine
         line_item_dict = orderAdvice.cac_OrderLine.cac_LineItem
+        order_ref = self.create_order_reference(orderAdvice)
 
         despatch_line = models.CacDespatchLine(
-
+            cbc_ID = line_item_dict.cbc_ID,
+            cbc_Note = order.cbc_Note,
+            cbc_LineStatusCode = line_item_dict.cbc_LineStatusCode,
+            cbc_DeliveredQuantity = models.CbcDeliveredQuantity(
+                field_unitCode = line_item_dict.cbc_Quantity.field_unitCode,
+                text = '0'
+            ),
+            cbc_BackorderQuantity = models.CbcDeliveredQuantity(
+                field_unitCode = line_item_dict.cbc_Quantity.field_unitCode,
+                text = line_item_dict.cbc_Quantity.text
+            ),
+            cbc_BackorderReason = '',
+            cac_OrderLineReference = models.CacOrderLineReference(
+                cbc_LineID = '',
+                cbc_SalesOrderLineID = '',
+                cac_OrderReference = order_ref
+            ),
+            cac_Item = line_item_dict.cac_Item
         )
         return despatch_line
 
     #create despatch advice
-    def create_despatch_advice(self, orderAdivce: models2.Order, shipment: models.CacShipment) -> models.DespatchAdvice:
+    def create_despatch_advice(self, orderAdvice: models2.Order, shipment: models.CacShipment) -> models.DespatchAdvice:
         #will return a peydantic model of the despatch advice
         despatch_advice = models.DespatchAdvice(
-            field_xmlns_cbc = orderAdivce.field_xmlns,
-            field_xmlns_cac = orderAdivce.field_xmlns_cac,
-            field_xmlns = orderAdivce.field_xmlns,
-            cbc_UBLVersionID = orderAdivce.cbc_UBLVersionID,
-            cbc_ProfileID = orderAdivce.cbc_ProfileID,
+            field_xmlns_cbc = orderAdvice.field_xmlns,
+            field_xmlns_cac = orderAdvice.field_xmlns_cac,
+            field_xmlns = orderAdvice.field_xmlns,
+            cbc_UBLVersionID = orderAdvice.cbc_UBLVersionID,
+            cbc_ProfileID = orderAdvice.cbc_ProfileID,
             cbc_ID = '',
             cbc_CopyIndicator = 'false',
             cbc_UUID = uuid.uuid4(), #generating a uuid
@@ -71,11 +89,11 @@ class DespatchAdviceFactory :
             cbc_DocumentStatusCode = 'NoStatus',
             cbc_DespatchAdviceTypeCode = 'delivery',
             cbc_Note = '',
-            order_ref = self.create_order_reference(orderAdivce), 
-            supplier_party = self.create_despatch_supplier_party(orderAdivce),
-            customer_party = self.create_delivery_customer_party(orderAdivce),
+            order_ref = self.create_order_reference(orderAdvice), 
+            supplier_party = self.create_despatch_supplier_party(orderAdvice),
+            customer_party = self.create_delivery_customer_party(orderAdvice),
             shipment_details = self.create_shipment(shipment),
-            despatch_line = self.create_despatch_line(orderAdivce)
+            despatch_line = self.create_despatch_line(orderAdvice)
         )
         return despatch_advice
     
