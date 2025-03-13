@@ -18,15 +18,73 @@ class DespatchAdviceFactory :
         )
         return  order_ref
 
-    #create despatch supplier party
-    #from the order advice use SellerSupplierParty
-    def create_despatch_supplier_party(self, orderAdvice: models2.Order) -> models.CacDespatchSupplierParty:
-        pass
-
     #create delivery customer party
     #from the order use Buyer customer Party
     def create_delivery_customer_party(self, orderAdvice: models2.Order) -> models.CacDeliveryCustomerParty:
-        pass
+        seller_party = orderAdvice.cac_SellerSupplierParty
+        party_name = models.CacPartyName(cbc_Name=seller_party.cac_Party.cac_PartyName.cbc_Name)
+
+        postal_address = models.CacPostalAddress(
+            cbc_StreetName=seller_party.cac_Party.cac_PostalAddress.cbc_StreetName,
+            cbc_BuildingName=seller_party.cac_Party.cac_PostalAddress.cbc_BuildingName,
+            cbc_BuildingNumber=seller_party.cac_Party.cac_PostalAddress.cbc_BuildingNumber,
+            cbc_CityName=seller_party.cac_Party.cac_PostalAddress.cbc_CityName,
+            cbc_PostalZone=seller_party.cac_Party.cac_PostalAddress.cbc_PostalZone,
+            cbc_CountrySubentity=seller_party.cac_Party.cac_PostalAddress.cbc_CountrySubentity,
+            cac_AddressLine=models.CacAddressLine(cbc_Line=seller_party.cac_Party.cac_PostalAddress.cac_AddressLine.cbc_Line),
+            cac_Country=models.CacCountry(cbc_IdentificationCode=seller_party.cac_Party.cac_PostalAddress.cac_Country.cbc_IdentificationCode)
+        )
+
+        party_tax_scheme = models.CacPartyTaxScheme(
+            cbc_RegistrationName=seller_party.cac_Party.cac_PartyTaxScheme.cbc_RegistrationName,
+            cbc_CompanyID=seller_party.cac_Party.cac_PartyTaxScheme.cbc_CompanyID,
+            cbc_ExemptionReason=seller_party.cac_Party.cac_PartyTaxScheme.cbc_ExemptionReason,
+            cac_TaxScheme=models.CacTaxScheme(
+                cbc_ID=seller_party.cac_Party.cac_PartyTaxScheme.cac_TaxScheme.cbc_ID,
+                cbc_TaxTypeCode=seller_party.cac_Party.cac_PartyTaxScheme.cac_TaxScheme.cbc_TaxTypeCode
+            )
+        )
+
+        contact = models.CacContact (
+            cbc_Name=seller_party.cac_Party.cac_Contact.cbc_Name,
+            cbc_Telephone=seller_party.cac_Party.cac_Contact.cbc_Telephone,
+            cbc_Telefax=seller_party.cac_Party.cac_Contact.cbc_Telefax,
+            cbc_ElectronicMail=seller_party.cac_Party.cac_Contact.cbc_ElectronicMail
+
+        )
+
+        party = models.CacParty(
+            cac_PartyName=party_name,
+            cac_PostalAddress=postal_address,
+            cac_PartyTaxScheme=party_tax_scheme,
+            cac_Contact=contact
+        )
+
+        despatch_supplier_party = models.CacDespatchSupplierParty(
+            cbc_CustomerAssignedAccountID=seller_party.cbc_CustomerAssignedAccountID,
+            cac_Party=party
+        )
+
+        return despatch_supplier_party
+
+    #create delivery customer party
+    #from the order use Buyer customer Party
+    def create_delivery_customer_party(orderAdvice: models2.Order) -> models.CacDeliveryCustomerParty:
+        buyer_party = orderAdvice.cac_BuyerCustomerParty
+        party_details = buyer_party.cac_Party
+
+        deliver_customer_party = models.CacDeliveryCustomerParty(
+            cbc_CustomerAssignedAccountID=buyer_party.cbc_CustomerAssignedAccountID,
+            cbc_SupplierAssignedAccountID=buyer_party.cbc_SupplierAssignedAccountID,
+            cac_Party=models.CacParty1(
+                cac_PartyName=party_details.cac_PartyName,
+                cac_PostalAddress=party_details.cac_PostalAddress,
+                cac_PartyTaxScheme=party_details.cac_PastryTaxScheme,
+                cac_Contact=party_details.cac_Contact,
+            )
+        )
+
+        return deliver_customer_party
 
     #create shipment
     #extract from the shipment json
