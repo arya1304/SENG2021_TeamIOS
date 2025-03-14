@@ -5,8 +5,18 @@ from abc import ABC, abstractmethod
 import xml.etree.ElementTree as ET
 import uuid
 from datetime import datetime
+import json
+
+import boto3
+
+DYNAMO_TABLE_NAME = "DespatchAdviceTable"
+dynamodb = boto3.client('dynamodb')
+table = dynamodb.Table('DespatchAdvice') # table name might change
+
 
 class DespatchAdviceFactory :
+    def __init__(self):
+        pass
     #create order reference
     def create_order_reference(self, orderAdvice: models2.Order) -> models.CacOrderReference:
         lineItem_dict = orderAdvice.cac_OrderLine.cac_LineItem
@@ -101,9 +111,7 @@ class DespatchAdviceFactory :
 
 
     #create despatch line
-    #map items, quantities and price details from the order advice
     #each item has its own despatch line 
-
     def create_despatch_line(self, orderAdvice: models2.Order) -> models.CacDespatchLine:
         order = orderAdvice.cac_OrderLine
         line_item_dict = orderAdvice.cac_OrderLine.cac_LineItem
@@ -154,11 +162,30 @@ class DespatchAdviceFactory :
             despatch_line = self.create_despatch_line(orderAdvice)
         )
         return despatch_advice
-    
-    #convert it into xml format
 
-    #https://docs.oasis-open.org/ubl/os-UBL-2.4/xml/UBL-DespatchAdvice-2.0-Example.xml 
+    def lambda_handler(event, context):
 
+        body = json.loads(event["body"])
+        order_document = body.get("order", {})
+        shipment_details = body.get("shipment", {})
 
-    # the defs will return the despatch advice as a pydantic model and then we use ET to convert it into a xml
-    # first we convert the xml into a dict
+        order_dict = json.loads(order_document)
+        shipment_dict = json.loads(shipment_details)
+
+        #parse both the inputs to pydantic models/ this is validation of the fields
+        orderAdvice = models2.Order.model_validate(order_dict)
+        shipment = models.CacShipment.model_validate(shipment_dict)
+
+        #create the despatch advice and store it in the database
+        factory = DespatchAdviceFactory()
+        advice = factory.create_despatch_advice(orderAdvice, shipment)
+        
+
+        #need to store the despatch advice in the database
+        #use model_dump_json to convert from the pydantic format back to json
+        table.put_item(Item=advice.model_dump_json())
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"despatch_advice": advice})
+        }
