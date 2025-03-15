@@ -3,6 +3,21 @@ import json
 from rich import print
 from pydanticModels import models2, shipmentModel
 from DespatchAdviceFactory import DespatchAdvice
+from dict2xml import dict2xml
+from collections import OrderedDict
+
+
+
+def replace_specialchars(d):
+    if isinstance(d, dict):
+        return OrderedDict((k.replace("-", ":").replace("_", ":"), replace_specialchars(v)) for k, v in d.items())
+    elif isinstance(d, list):
+        return [replace_specialchars(i) for i in d]
+    else:
+        return d
+    
+
+
 
 def main():
     # Read JSON input from the terminal
@@ -29,13 +44,22 @@ def main():
         # Generate Despatch Advice
         factory = DespatchAdvice()
         despatch_advice = factory.create_despatch_advice(order, shipment)
+        despatch_json_str = despatch_advice.model_dump_json()
+        despatch_dict = json.loads(despatch_json_str)
+        transformed_dict = replace_specialchars(despatch_dict)
 
         # Print the result
         print("Generated Despatch Advice:")
-        print(despatch_advice)
+        print(dict2xml(transformed_dict, wrap="Despatch", newlines=True))
+        #print(despatch_json_str)
+
 
     except json.JSONDecodeError:
         print("Invalid JSON format. Please enter valid JSON.")
+
+
+
+
 
 if __name__ == "__main__":
     main()
