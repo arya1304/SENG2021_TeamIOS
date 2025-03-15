@@ -8,225 +8,201 @@ from pydantic import BaseModel, Field
 
 
 class CacOrderReference(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
-    cbc_SalesOrderID: str = Field(..., alias='cbc:SalesOrderID')
-    cbc_UUID: str = Field(..., alias='cbc:UUID')
-    cbc_IssueDate: str = Field(..., alias='cbc:IssueDate')
+    cbc_ID: str
+    cbc_SalesOrderID: str 
+    cbc_UUID: str 
+    cbc_IssueDate: str 
 
 
 class CacPartyName(BaseModel):
-    cbc_Name: str = Field(..., alias='cbc:Name')
+    cbc_Name: str 
 
 
 class CacAddressLine(BaseModel):
-    cbc_Line: str = Field(..., alias='cbc:Line')
+    cbc_Line: str 
 
 
 class CacCountry(BaseModel):
-    cbc_IdentificationCode: str = Field(..., alias='cbc:IdentificationCode')
+    cbc_IdentificationCode: str 
 
 
 class CacPostalAddress(BaseModel):
-    cbc_StreetName: str = Field(..., alias='cbc:StreetName')
-    cbc_BuildingName: str = Field(..., alias='cbc:BuildingName')
-    cbc_BuildingNumber: str = Field(..., alias='cbc:BuildingNumber')
-    cbc_CityName: str = Field(..., alias='cbc:CityName')
-    cbc_PostalZone: str = Field(..., alias='cbc:PostalZone')
-    cbc_CountrySubentity: str = Field(..., alias='cbc:CountrySubentity')
-    cac_AddressLine: CacAddressLine = Field(..., alias='cac:AddressLine')
-    cac_Country: CacCountry = Field(..., alias='cac:Country')
+    cbc_StreetName: str
+    cbc_BuildingName: str 
+    cbc_BuildingNumber: str 
+    cbc_CityName: str 
+    cbc_PostalZone: str 
+    cbc_CountrySubentity: str 
+    cac_AddressLine: CacAddressLine 
+    cac_Country: CacCountry 
 
 
 class CacTaxScheme(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
-    cbc_TaxTypeCode: str = Field(..., alias='cbc:TaxTypeCode')
+    cbc_ID: str 
+    cbc_TaxTypeCode: str 
 
 
 class CacPartyTaxScheme(BaseModel):
-    cbc_RegistrationName: str = Field(..., alias='cbc:RegistrationName')
-    cbc_CompanyID: str = Field(..., alias='cbc:CompanyID')
-    cbc_ExemptionReason: str = Field(..., alias='cbc:ExemptionReason')
-    cac_TaxScheme: CacTaxScheme = Field(..., alias='cac:TaxScheme')
+    cbc_RegistrationName: str 
+    cbc_CompanyID: str 
+    cbc_ExemptionReason: str 
+    cac_TaxScheme: CacTaxScheme 
 
 
 class CacContact(BaseModel):
-    cbc_Name: str = Field(..., alias='cbc:Name')
-    cbc_Telephone: str = Field(..., alias='cbc:Telephone')
-    cbc_Telefax: str = Field(..., alias='cbc:Telefax')
-    cbc_ElectronicMail: str = Field(..., alias='cbc:ElectronicMail')
+    cbc_Name: str 
+    cbc_Telephone: str 
+    cbc_Telefax: str 
+    cbc_ElectronicMail: str 
 
 
 class CacParty(BaseModel):
-    cac_PartyName: CacPartyName = Field(..., alias='cac:PartyName')
-    cac_PostalAddress: CacPostalAddress = Field(..., alias='cac:PostalAddress')
-    cac_PartyTaxScheme: CacPartyTaxScheme = Field(..., alias='cac:PartyTaxScheme')
-    cac_Contact: CacContact = Field(..., alias='cac:Contact')
+    cac_PartyName: CacPartyName
+    cac_PostalAddress: CacPostalAddress 
+    cac_PartyTaxScheme: CacPartyTaxScheme 
+    cac_Contact: CacContact 
 
 
 class CacDespatchSupplierParty(BaseModel):
-    cbc_CustomerAssignedAccountID: str = Field(
-        ..., alias='cbc:CustomerAssignedAccountID'
-    )
-    cac_Party: CacParty = Field(..., alias='cac:Party')
+    cbc_CustomerAssignedAccountID: str 
+    cac_Party: CacParty 
 
 
 class CacPostalAddress1(BaseModel):
-    cbc_StreetName: str = Field(..., alias='cbc:StreetName')
-    cbc_BuildingName: str = Field(..., alias='cbc:BuildingName')
-    cbc_BuildingNumber: str = Field(..., alias='cbc:BuildingNumber')
-    cbc_CityName: str = Field(..., alias='cbc:CityName')
-    cbc_PostalZone: str = Field(..., alias='cbc:PostalZone')
-    cbc_CountrySubentity: str = Field(..., alias='cbc:CountrySubentity')
-    cac_AddressLine: CacAddressLine = Field(..., alias='cac:AddressLine')
-    cac_Country: CacCountry = Field(..., alias='cac:Country')
+    cbc_StreetName: str 
+    cbc_BuildingName: str 
+    cbc_BuildingNumber: str 
+    cbc_CityName: str 
+    cbc_PostalZone: str 
+    cbc_CountrySubentity: str 
+    cac_AddressLine: CacAddressLine 
+    cac_Country: CacCountry 
 
 
 class CacPartyTaxScheme1(BaseModel):
-    cbc_RegistrationName: str = Field(..., alias='cbc:RegistrationName')
-    cbc_CompanyID: str = Field(..., alias='cbc:CompanyID')
-    cbc_ExemptionReason: str = Field(..., alias='cbc:ExemptionReason')
-    cac_TaxScheme: CacTaxScheme = Field(..., alias='cac:TaxScheme')
+    cbc_RegistrationName: str
+    cbc_CompanyID: str 
+    cbc_ExemptionReason: str 
+    cac_TaxScheme: CacTaxScheme 
 
 
 class CacParty1(BaseModel):
-    cac_PartyName: CacPartyName = Field(..., alias='cac:PartyName')
-    cac_PostalAddress: CacPostalAddress1 = Field(..., alias='cac:PostalAddress')
-    cac_PartyTaxScheme: CacPartyTaxScheme1 = Field(..., alias='cac:PartyTaxScheme')
-    cac_Contact: CacContact = Field(..., alias='cac:Contact')
+    cac_PartyName: CacPartyName 
+    cac_PostalAddress: CacPostalAddress1 
+    cac_PartyTaxScheme: CacPartyTaxScheme1 
+    cac_Contact: CacContact
 
 
 class CacDeliveryCustomerParty(BaseModel):
-    cbc_CustomerAssignedAccountID: str = Field(
-        ..., alias='cbc:CustomerAssignedAccountID'
-    )
-    cbc_SupplierAssignedAccountID: str = Field(
-        ..., alias='cbc:SupplierAssignedAccountID'
-    )
-    cac_Party: CacParty1 = Field(..., alias='cac:Party')
+    cbc_CustomerAssignedAccountID: str 
+    cbc_SupplierAssignedAccountID: str 
+    cac_Party: CacParty1 
 
 
 class CacConsignment(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
+    cbc_ID: str 
 
 
 class CacDeliveryAddress(BaseModel):
-    cbc_StreetName: str = Field(..., alias='cbc:StreetName')
-    cbc_BuildingName: str = Field(..., alias='cbc:BuildingName')
-    cbc_BuildingNumber: str = Field(..., alias='cbc:BuildingNumber')
-    cbc_CityName: str = Field(..., alias='cbc:CityName')
-    cbc_PostalZone: str = Field(..., alias='cbc:PostalZone')
-    cbc_CountrySubentity: str = Field(..., alias='cbc:CountrySubentity')
-    cac_AddressLine: CacAddressLine = Field(..., alias='cac:AddressLine')
-    cac_Country: CacCountry = Field(..., alias='cac:Country')
+    cbc_StreetName: str 
+    cbc_BuildingName: str
+    cbc_BuildingNumber: str 
+    cbc_CityName: str 
+    cbc_PostalZone: str 
+    cbc_CountrySubentity: str 
+    cac_AddressLine: CacAddressLine 
+    cac_Country: CacCountry 
 
 
 class CacRequestedDeliveryPeriod(BaseModel):
-    cbc_StartDate: str = Field(..., alias='cbc:StartDate')
-    cbc_StartTime: str = Field(..., alias='cbc:StartTime')
-    cbc_EndDate: str = Field(..., alias='cbc:EndDate')
-    cbc_EndTime: str = Field(..., alias='cbc:EndTime')
+    cbc_StartDate: str 
+    cbc_StartTime: str 
+    cbc_EndDate: str 
+    cbc_EndTime: str 
 
 
 class CacDelivery(BaseModel):
-    cac_DeliveryAddress: CacDeliveryAddress = Field(..., alias='cac:DeliveryAddress')
-    cac_RequestedDeliveryPeriod: CacRequestedDeliveryPeriod = Field(
-        ..., alias='cac:RequestedDeliveryPeriod'
-    )
+    cac_DeliveryAddress: CacDeliveryAddress 
+    cac_RequestedDeliveryPeriod: CacRequestedDeliveryPeriod 
 
 
 class CacShipment(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
-    cac_Consignment: CacConsignment = Field(..., alias='cac:Consignment')
-    cac_Delivery: CacDelivery = Field(..., alias='cac:Delivery')
+    cbc_ID: str 
+    cac_Consignment: CacConsignment 
+    cac_Delivery: CacDelivery 
 
 
 class CbcDeliveredQuantity(BaseModel):
-    field_unitCode: str = Field(..., alias='@unitCode')
-    text: str = Field(..., alias='#text')
+    field_unitCode: str 
+    text: str
 
 
 class CbcBackorderQuantity(BaseModel):
-    field_unitCode: str = Field(..., alias='@unitCode')
-    text: str = Field(..., alias='#text')
+    field_unitCode: str 
+    text: str 
 
 
 class CacOrderLineReference(BaseModel):
-    cbc_LineID: str = Field(..., alias='cbc:LineID')
-    cbc_SalesOrderLineID: str = Field(..., alias='cbc:SalesOrderLineID')
-    cac_OrderReference: CacOrderReference = Field(..., alias='cac:OrderReference')
+    cbc_LineID: str 
+    cbc_SalesOrderLineID: str 
+    cac_OrderReference: CacOrderReference 
 
 
 class CacBuyersItemIdentification(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
+    cbc_ID: str 
 
 
 class CacSellersItemIdentification(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
+    cbc_ID: str 
 
 
 class CacLotIdentification(BaseModel):
-    cbc_LotNumberID: str = Field(..., alias='cbc:LotNumberID')
-    cbc_ExpiryDate: str = Field(..., alias='cbc:ExpiryDate')
+    cbc_LotNumberID: str 
+    cbc_ExpiryDate: str 
 
 
 class CacItemInstance(BaseModel):
-    cac_LotIdentification: CacLotIdentification = Field(
-        ..., alias='cac:LotIdentification'
-    )
-
+    cac_LotIdentification: CacLotIdentification
+     
 
 class CacItem(BaseModel):
-    cbc_Description: str = Field(..., alias='cbc:Description')
-    cbc_Name: str = Field(..., alias='cbc:Name')
-    cac_BuyersItemIdentification: CacBuyersItemIdentification = Field(
-        ..., alias='cac:BuyersItemIdentification'
-    )
-    cac_SellersItemIdentification: CacSellersItemIdentification = Field(
-        ..., alias='cac:SellersItemIdentification'
-    )
-    cac_ItemInstance: CacItemInstance = Field(..., alias='cac:ItemInstance')
+    cbc_Description: str 
+    cbc_Name: str 
+    cac_BuyersItemIdentification: CacBuyersItemIdentification 
+    cac_SellersItemIdentification: CacSellersItemIdentification 
+    cac_ItemInstance: CacItemInstance
 
 
 class CacDespatchLine(BaseModel):
-    cbc_ID: str = Field(..., alias='cbc:ID')
-    cbc_Note: str = Field(..., alias='cbc:Note')
-    cbc_LineStatusCode: str = Field(..., alias='cbc:LineStatusCode')
-    cbc_DeliveredQuantity: CbcDeliveredQuantity = Field(
-        ..., alias='cbc:DeliveredQuantity'
-    )
-    cbc_BackorderQuantity: CbcBackorderQuantity = Field(
-        ..., alias='cbc:BackorderQuantity'
-    )
-    cbc_BackorderReason: str = Field(..., alias='cbc:BackorderReason')
-    cac_OrderLineReference: CacOrderLineReference = Field(
-        ..., alias='cac:OrderLineReference'
-    )
-    cac_Item: CacItem = Field(..., alias='cac:Item')
+    cbc_ID: str 
+    cbc_Note: str 
+    cbc_LineStatusCode: str 
+    cbc_DeliveredQuantity: CbcDeliveredQuantity 
+    cbc_BackorderQuantity: CbcBackorderQuantity 
+    cbc_BackorderReason: str 
+    cac_OrderLineReference: CacOrderLineReference 
+    cac_Item: CacItem 
 
 
 class DespatchAdvice(BaseModel):
-    field_xmlns_cbc: str = Field(..., alias='@xmlns:cbc')
-    field_xmlns_cac: str = Field(..., alias='@xmlns:cac')
-    field_xmlns: str = Field(..., alias='@xmlns')
-    cbc_UBLVersionID: str = Field(..., alias='cbc:UBLVersionID')
-    cbc_CustomizationID: str = Field(..., alias='cbc:CustomizationID')
-    cbc_ProfileID: str = Field(..., alias='cbc:ProfileID')
-    cbc_ID: str = Field(..., alias='cbc:ID')
-    cbc_CopyIndicator: str = Field(..., alias='cbc:CopyIndicator')
-    cbc_UUID: str = Field(..., alias='cbc:UUID')
-    cbc_IssueDate: str = Field(..., alias='cbc:IssueDate')
-    cbc_DocumentStatusCode: str = Field(..., alias='cbc:DocumentStatusCode')
-    cbc_DespatchAdviceTypeCode: str = Field(..., alias='cbc:DespatchAdviceTypeCode')
-    cbc_Note: str = Field(..., alias='cbc:Note')
-    cac_OrderReference: CacOrderReference = Field(..., alias='cac:OrderReference')
-    cac_DespatchSupplierParty: CacDespatchSupplierParty = Field(
-        ..., alias='cac:DespatchSupplierParty'
-    )
-    cac_DeliveryCustomerParty: CacDeliveryCustomerParty = Field(
-        ..., alias='cac:DeliveryCustomerParty'
-    )
-    cac_Shipment: CacShipment = Field(..., alias='cac:Shipment')
-    cac_DespatchLine: CacDespatchLine = Field(..., alias='cac:DespatchLine')
+    field_xmlns_cbc: str 
+    field_xmlns_cac: str 
+    field_xmlns: str 
+    cbc_UBLVersionID: str 
+    cbc_CustomizationID: str 
+    cbc_ProfileID: str 
+    cbc_ID: str 
+    cbc_CopyIndicator: str 
+    cbc_UUID: str 
+    cbc_IssueDate: str 
+    cbc_DocumentStatusCode: str 
+    cbc_DespatchAdviceTypeCode: str 
+    cbc_Note: str 
+    cac_OrderReference: CacOrderReference 
+    cac_DespatchSupplierParty: CacDespatchSupplierParty 
+    cac_DeliveryCustomerParty: CacDeliveryCustomerParty 
+    cac_Shipment: CacShipment 
+    cac_DespatchLine: CacDespatchLine 
 
 
 class Model(BaseModel):
