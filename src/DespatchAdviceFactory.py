@@ -1,18 +1,10 @@
 
 from typing import Type 
 from pydanticModels import models2, models, shipmentModel
-from abc import ABC, abstractmethod
 import xml.etree.ElementTree as ET
 import uuid
 from datetime import datetime
-import json
-from rich import print
-
-import boto3
-
-#DYNAMO_TABLE_NAME = "DespatchAdviceTable"
-#dynamodb = boto3.client('dynamodb')
-#table = dynamodb.Table('DespatchAdvice') # table name might change
+import random
 
 
 class DespatchAdvice :
@@ -118,7 +110,7 @@ class DespatchAdvice :
             cbc_ExemptionReason="N/A",
             cac_TaxScheme=models.CacTaxScheme(
                 cbc_ID="213",
-                cbc_TaxTypeCode="3131441"
+                cbc_TaxTypeCode=f"{random.randrange(1,40)}"
             )
         )
 
@@ -223,7 +215,7 @@ class DespatchAdvice :
         #lot identification, randomise
         lot_identity = models.CacLotIdentification(
             cbc_ExpiryDate="000",
-            cbc_LotNumberID="0000"
+            cbc_LotNumberID=f"{random.randrange(1,10)}"
         )
 
         instance_item = models.CacItemInstance(
@@ -257,18 +249,7 @@ class DespatchAdvice :
     #create despatch advice
     def create_despatch_advice(self, orderAdvice: models2.Order, shipment: shipmentModel.CacShipment) -> models.DespatchAdvice:
         #will return a peydantic model of the despatch advice
-        order_ref = self.create_order_reference(orderAdvice), 
-        supplier_party = self.create_despatch_supplier_party(orderAdvice),
-        customer_party = self.create_delivery_customer_party(orderAdvice),
-        shipment_details = self.create_shipment(shipment),
-        despatch_line = self.create_despatch_line(orderAdvice)
 
-        print("Hello create func")
-        #print(order_ref)
-        #print(supplier_party)
-        #print(customer_party)
-        #print(shipment_details)
-        #print(despatch_line)
         order_ref_ = self.create_order_reference(orderAdvice)
         despatch_advice = models.DespatchAdvice(
             field_xmlns_cbc = orderAdvice.field_xmlns,
@@ -283,8 +264,7 @@ class DespatchAdvice :
             cbc_IssueDate = datetime.today().strftime('%Y-%m-%d'),
             cbc_DocumentStatusCode = 'NoStatus',
             cbc_DespatchAdviceTypeCode = 'delivery',
-            cbc_Note = 'ajjffj',
-            order_ref =  order_ref_, 
+            cbc_Note = 'N/A',
             cac_OrderReference = self.create_order_reference(orderAdvice),
             cac_DespatchSupplierParty = self.create_despatch_supplier_party(orderAdvice),
             cac_DeliveryCustomerParty = self.create_delivery_customer_party(orderAdvice),
@@ -292,4 +272,5 @@ class DespatchAdvice :
             cac_DespatchLine = self.create_despatch_line(orderAdvice)
         )
         return despatch_advice
+
 
