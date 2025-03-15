@@ -2,7 +2,6 @@
 from pydanticModels import models2,  shipmentModel
 from DespatchAdviceFactory import DespatchAdvice
 from toXmlFormat import replace_specialchars
-import xml.etree.ElementTree as ET
 import uuid
 from datetime import datetime
 from dict2xml import dict2xml
