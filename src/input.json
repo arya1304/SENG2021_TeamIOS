@@ -208,45 +208,5 @@
           "cbc:EndTime": "10:30:47.0Z"
         }
       }
-    },
-    "cac:DespatchLine": {
-      "cbc:ID": "1",
-      "cbc:Note": "Mrs Green agreed to waive charge",
-      "cbc:LineStatusCode": "NoStatus",
-      "cbc:DeliveredQuantity": {
-        "@unitCode": "KGM",
-        "#text": "90"
-      },
-      "cbc:BackorderQuantity": {
-        "@unitCode": "KGM",
-        "#text": "10"
-      },
-      "cbc:BackorderReason": "lack of stock as explained on telephone today",
-      "cac:OrderLineReference": {
-        "cbc:LineID": "1",
-        "cbc:SalesOrderLineID": "A",
-        "cac:OrderReference": {
-          "cbc:ID": "AEG012345",
-          "cbc:SalesOrderID": "CON0095678",
-          "cbc:UUID": "6E09886B-DC6E-439F-82D1-7CCAC7F4E3B1",
-          "cbc:IssueDate": "2005-06-20"
-        }
-      },
-      "cac:Item": {
-        "cbc:Description": "Acme beeswax",
-        "cbc:Name": "beeswax",
-        "cac:BuyersItemIdentification": {
-          "cbc:ID": "6578489"
-        },
-        "cac:SellersItemIdentification": {
-          "cbc:ID": "17589683"
-        },
-        "cac:ItemInstance": {
-          "cac:LotIdentification": {
-            "cbc:LotNumberID": "546378239",
-            "cbc:ExpiryDate": "2010-01-01"
-          }
-        }
-      }
     }
   }

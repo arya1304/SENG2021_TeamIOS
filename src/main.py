@@ -39,18 +39,16 @@ def main():
         # Convert JSON to Order and CacShipment objects
         order = models2.Order(**order_data)
         shipment = shipmentModel.CacShipment(**shipment_data)
-
-
-        # Generate Despatch Advice
         factory = DespatchAdvice()
         despatch_advice = factory.create_despatch_advice(order, shipment)
-        despatch_json_str = despatch_advice.model_dump_json()
-        despatch_dict = json.loads(despatch_json_str)
-        transformed_dict = replace_specialchars(despatch_dict)
+        transformed_dict = factory.pydantic_to_xml(despatch_advice)
+
+
+     
 
         # Print the result
         print("Generated Despatch Advice:")
-        print(dict2xml(transformed_dict, wrap="Despatch", newlines=True))
+        print(transformed_dict)
         #print(despatch_json_str)
 
 

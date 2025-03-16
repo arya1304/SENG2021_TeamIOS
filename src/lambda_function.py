@@ -1,47 +1,46 @@
-
 from pydanticModels import models2,  shipmentModel
 from DespatchAdviceFactory import DespatchAdvice
-from toXmlFormat import replace_specialchars
-import uuid
-from datetime import datetime
 from dict2xml import dict2xml
+from toXmlFormat import replace_specialchars
 import json
 
 import boto3
 
-DYNAMO_TABLE_NAME = "DespatchAdviceTable"
-dynamodb = boto3.client('dynamodb')
-table = dynamodb.Table('DespatchAdvice') # table name might change
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('DespatchAdviceTable') # table name might change
 
 def lambda_handler(event, context):
-        body = json.loads(event["body"])
-        order_document = body.get("order", {})
-        shipment_details = body.get("shipment", {})
+        order_document = event.get("Order", {})
+        shipment_details = event.get("cac:Shipment", {})
 
         # Convert JSON to Order and CacShipment objects
-        order = models2.Order(**order_document)
-        shipment = shipmentModel.CacShipment(**shipment_details)
-
+        order = models2.Order(order_document)
+        shipment = shipmentModel.CacShipment(shipment_details)
 
         # Generate Despatch Advice
         factory = DespatchAdvice()
         despatch_advice = factory.create_despatch_advice(order, shipment)
-        despatch_json_str = despatch_advice.model_dump_json()
-        despatch_dict = json.loads(despatch_json_str)
-        transformed_dict = replace_specialchars(despatch_dict)
+        despatch_xml = factory.pydantic_to_xml(despatch_advice)
+
+        item_json = despatch_advice.cac_despatchLine.cac_Item.model_dump_json()
+        item_dict = json.loads(item_json)
+        item_transformed = replace_specialchars(item_dict)
+        item_xml = dict2xml(item_transformed, wrap="Item", newlines=True)
+
 
         despatch_item = {
             'ID': despatch_advice.cbc_ID, 
             'IssueDate': despatch_advice.cbc_IssueDate,
-            'CountrySubentity': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cac_Country,
-            'DespatchContent': despatch_json_str
+            'CountrySubentity': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cac_Country.cbc_IdentificationCode,
+            'Items': item_xml,
+            'DespatchContent': despatch_xml
         }
-        
+
         #need to store the despatch advice in the database
         #use model_dump_json to convert from the pydantic format back to json
         table.put_item(Item=despatch_item)
 
         return {
             "statusCode": 200,
-            "body": dict2xml(transformed_dict, wrap="Despatch", newlines=True)
+            "body": despatch_xml
         }

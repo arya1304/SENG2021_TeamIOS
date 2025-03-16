@@ -1,3 +1,0 @@
-pydantic==2.10.6
-dicttoxml==1.7.6
-boto3==1.37.12
