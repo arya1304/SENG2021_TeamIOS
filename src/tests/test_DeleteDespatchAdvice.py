@@ -30,7 +30,6 @@ def test_delete_item_missing(mock_boto_resource, mock_dynamodb):
     mock_boto_resource.return_value = mock_resource
 
     mock_table.get_item.return_value = {}
-    mock_table.delete_item.return_value = {}
 
     event = {"pathParameters": {"despatchId": "notexist"}}
     response = lambda_handler(event, {})
@@ -45,7 +44,6 @@ def test_empty_parameters(mock_boto_resource, mock_dynamodb):
     mock_boto_resource.return_value = mock_resource
 
     mock_table.get_item.return_value = {}
-    mock_table.delete_item.return_value = {}
 
     event = {"pathParameters": ""}
     response = lambda_handler(event, {})
