@@ -1,10 +1,11 @@
 from pydanticModels import models2,  shipmentModel
+from pydantic import ValidationError
 from DespatchAdviceFactory import DespatchAdvice
 from dict2xml import dict2xml
 from toXmlFormat import replace_specialchars
 import json
-
 import boto3
+
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('DespatchAdviceTable') # table name might change
@@ -14,8 +15,14 @@ def lambda_handler(event, context):
         shipment_details = event.get("cac:Shipment", {})
 
         # Convert JSON to Order and CacShipment objects
-        order = models2.Order(order_document)
-        shipment = shipmentModel.CacShipment(shipment_details)
+        try:
+            order = models2.Order(order_document)
+            shipment = shipmentModel.CacShipment(shipment_details)
+        except ValidationError as e:
+              return {
+                    "statusCode": 404,
+                    "message": f"Bad Request: Inputs are not in the correct format"
+              }
 
         # Generate Despatch Advice
         factory = DespatchAdvice()
