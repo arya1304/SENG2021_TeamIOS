@@ -145,7 +145,7 @@ class DespatchAdvice:
         address_line = models.CacAddressLine(
            cbc_Line=delivery.cac_AddressLine.cbc_Line
         )
-    
+        
         country = models.CacCountry(
            cbc_IdentificationCode=delivery.cac_Country.cbc_IdentificationCode
         )
