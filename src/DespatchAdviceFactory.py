@@ -275,7 +275,7 @@ class DespatchAdvice:
             cbc_UBLVersionID=orderAdvice.cbc_UBLVersionID,
             cbc_CustomizationID="",
             cbc_ProfileID=orderAdvice.cbc_ProfileID,
-            cbc_ID='111',
+            cbc_ID=f"{random.randrange(1,10000)}",
             cbc_CopyIndicator='false',
             cbc_UUID=str(uuid.uuid4()),  # generating a uuid
             cbc_IssueDate=datetime.today().strftime('%Y-%m-%d'),
