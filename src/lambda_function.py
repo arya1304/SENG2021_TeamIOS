@@ -16,8 +16,8 @@ def lambda_handler(event, context):
 
         # Convert JSON to Order and CacShipment objects
         try:
-            order = models2.Order(order_document)
-            shipment = shipmentModel.CacShipment(shipment_details)
+            order = models2.Order(**order_document)
+            shipment = shipmentModel.CacShipment(**shipment_details)
         except ValidationError as e:
               return {
                     "statusCode": 404,
@@ -26,10 +26,10 @@ def lambda_handler(event, context):
 
         # Generate Despatch Advice
         factory = DespatchAdvice()
-        despatch_advice = factory.create_despatch_advice(order, shipment)
+        despatch_advice = factory.create_Despatch_advice(order, shipment)
         despatch_xml = factory.pydantic_to_xml(despatch_advice)
 
-        item_json = despatch_advice.cac_despatchLine.cac_Item.model_dump_json()
+        item_json = despatch_advice.cac_DespatchLine.cac_Item.model_dump_json()
         item_dict = json.loads(item_json)
         item_transformed = replace_specialchars(item_dict)
         item_xml = dict2xml(item_transformed, wrap="Item", newlines=True)
@@ -38,7 +38,7 @@ def lambda_handler(event, context):
         despatch_item = {
             'ID': despatch_advice.cbc_ID, 
             'IssueDate': despatch_advice.cbc_IssueDate,
-            'CountrySubentity': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cac_Country.cbc_IdentificationCode,
+            'CountrySubentity': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cbc_CountrySubentity,
             'Items': item_xml,
             'DespatchContent': despatch_xml
         }
