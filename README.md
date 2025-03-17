@@ -13,4 +13,6 @@ Our API has mutliple features such as:
 Here is our postman: https://documenter.getpostman.com/view/43144982/2sAYkBth9E
 - This postmain details all the expected inputs and responses
 
+Swagger.ymal -> inside the src
+
 
