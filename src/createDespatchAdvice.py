@@ -20,13 +20,13 @@ def lambda_handler(event, context):
             shipment = shipmentModel.CacShipment(**shipment_details)
         except ValidationError as e:
               return {
-                    "statusCode": 404,
-                    "message": f"Bad Request: Inputs are not in the correct format"
+                    "statusCode": 400,
+                    "message": "Bad Request: Inputs are not in the correct format"
               }
 
         # Generate Despatch Advice
         factory = DespatchAdvice()
-        despatch_advice = factory.create_Despatch_advice(order, shipment)
+        despatch_advice = factory.create_despatch_advice(order, shipment)
         despatch_xml = factory.pydantic_to_xml(despatch_advice)
 
         item_json = despatch_advice.cac_DespatchLine.cac_Item.model_dump_json()
@@ -34,13 +34,31 @@ def lambda_handler(event, context):
         item_transformed = replace_specialchars(item_dict)
         item_xml = dict2xml(item_transformed, wrap="Item", newlines=True)
 
+        requested_delivery_json = despatch_advice.cac_Shipment.cac_Delivery.cac_RequestedDeliveryPeriod.model_dump_json()
+        requested_delivery_dict = json.loads(requested_delivery_json)
+        requested_delivery_transformed = replace_specialchars(requested_delivery_dict)
+        requested_delivery_xml = dict2xml(requested_delivery_transformed, wrap="RequestedDeliveryPeriod", newlines=True)
+
+        shipment_details_json = despatch_advice.cac_Shipment.model_dump_json()
+        shipment_details_dict = json.loads(shipment_details_json)
+        shipment_details_transformed = replace_specialchars(shipment_details_dict)
+        shipment_details_xml = dict2xml(shipment_details_transformed, wrap="ShipmentDetails", newlines=True)
+
+        order_reference_json = despatch_advice.cac_OrderReference.model_dump_json()
+        order_reference_dict = json.loads(order_reference_json)
+        order_reference_transformed = replace_specialchars(order_reference_dict)
+        order_reference_xml = dict2xml(order_reference_transformed, wrap="OrderReference", newlines=True)
+
 
         despatch_item = {
             'ID': despatch_advice.cbc_ID, 
             'IssueDate': despatch_advice.cbc_IssueDate,
-            'CountrySubentity': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cbc_CountrySubentity,
+            'ShipmentCountry': despatch_advice.cac_Shipment.cac_Delivery.cac_DeliveryAddress.cac_Country.cbc_IdentificationCode,
             'Items': item_xml,
-            'DespatchContent': despatch_xml
+            'DespatchContent': despatch_xml,
+            'RequestedDeliveryPeriod': requested_delivery_xml,
+            'ShipmentDetails': shipment_details_xml,
+            'OrderReference': order_reference_xml
         }
 
         #need to store the despatch advice in the database
@@ -49,5 +67,5 @@ def lambda_handler(event, context):
 
         return {
             "statusCode": 200,
-            "body": despatch_xml
+            "DespatchAdvice": despatch_xml
         }
