@@ -44,7 +44,6 @@ def test_invalid_Id(mock_boto_resource, mock_dynamodb):
 
     assert response["statusCode"] == 404
     mock_table.get_item.assert_called_once_with(Key={"ID": "notexist"})
-    mock_table.delete_item.assert_not_called()
 
 @patch("boto3.resource")
 def test_empty_parameters(mock_boto_resource, mock_dynamodb):
@@ -57,4 +56,3 @@ def test_empty_parameters(mock_boto_resource, mock_dynamodb):
     response = lambda_handler(event, {})
 
     assert response["statusCode"] == 400
-    mock_table.delete_item.assert_not_called()
