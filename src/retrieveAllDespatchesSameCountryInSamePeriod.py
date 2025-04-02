@@ -59,7 +59,6 @@ def lambda_handler(event, context):
                 if start_date <= ship_date <= end_date:
                     items.append(item)
             except ValueError:
-                # Skip items with invalid date format
                 continue
 
     #get only the 'ID' field from all items
