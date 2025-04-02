@@ -20,8 +20,8 @@ def test_retrieve_success(mock_boto_resource, mock_dynamodb):
 
     mock_table.scan.return_value = {
         "Items": [
-            {"ID": "1", "ShipmentCountry": "Australia"},
-            {"ID": "2", "ShipmentCountry": "Australia"}
+            {"ID": "1", "ShipmentCountry": "Australia", "ShipmentDate": "14-05-2025"},
+            {"ID": "2", "ShipmentCountry": "Australia", "ShipmentDate": "14-06-2025"}
         ]
     }
 
@@ -29,7 +29,7 @@ def test_retrieve_success(mock_boto_resource, mock_dynamodb):
     response = lambda_handler(event, {})
 
     assert response["statusCode"] == 200
-    assert "despatchAdvices with same ShipmentCountry" in response
+    assert "despatchAdvices with same ShipmentCountry in same period" in response
     assert response["despatchAdvices with same ShipmentCountry in same period"]["despatchAdvicesIDs"] == ["ID: 1", "ID: 2"]
     mock_table.scan.assert_called_once()
 
