@@ -19,6 +19,7 @@ def lambda_handler(event, context):
             "message": "Bad Request - password not provided"
         }
     
+    #make the username a key in the table
     user_item = {
         'username': username,
         'password': password
