@@ -9,9 +9,11 @@ Our API has mutliple features such as:
 - retrieivng items from a specfic despatch advice
 - retrieving despatch advices that deliver to a specific country and
 - retrieving requested delivery period.
+- retieving despatch advice given Supplier name
+- retrieving customer contact of a specific despatch id
 
 Here is our postman: https://documenter.getpostman.com/view/43144982/2sAYkBth9E
-- This postmain details all the expected inputs and responses
+- This postman details all the expected inputs and responses
 
 Swagger.yaml -> inside the src
 
