@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, Mock
-from retrieveRequestedDelivery import lambda_handler
+from src.retrieveRequestedDelivery import lambda_handler
 
 TABLE_NAME = "DespatchAdviceTable"
 
