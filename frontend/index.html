@@ -14,16 +14,8 @@
             <div id="page-register">
                 <h1>Register</h1>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-email">Email</span>
-                    <input type="text" class="form-control" placeholder="email@email.com" aria-label="Email" aria-describedby="basic-email" id="register-email">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-firstname">Name</span>
-                    <input type="text" class="form-control" placeholder="First Name" aria-label="First Name" aria-describedby="basic-name" id="register-first-name">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-lastname">Name</span>
-                    <input type="text" class="form-control" placeholder="Last Name" aria-label="Last Name" aria-describedby="basic-name" id="register-last-name">
+                    <span class="input-group-text" id="basic-name">Name</span>
+                    <input type="text" class="form-control" placeholder="User name" aria-label="Name" aria-describedby="basic-name" id="register-name">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-password">Password</span>
@@ -34,8 +26,8 @@
             <div id="page-login">
                 <h1>Login</h1>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-email">Email</span>
-                    <input type="text" class="form-control" placeholder="email@email.com" aria-label="Email" aria-describedby="basic-email" id="login-email">
+                    <span class="input-group-text" id="basic-name">Name</span>
+                    <input type="text" class="form-control" placeholder="User name" aria-label="Name" aria-describedby="basic-name" id="login-name">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-password1">Password</span>
@@ -78,11 +70,19 @@
             <div id="page-dispatch-advice">
                 <div>
                     <h1>create dispatch advice</h1>
-                    <button id="btn-create-advice" type="button" class="btn btn-primary">Submit</button>
+                    <button id="btn-create-advice" type="button" class="btn btn-primary">Create</button>
                 </div>
                 <div>
                     <h1>get all list of dispatch advice</h1>
-                    <button id="btn-list-advice" type="button" class="btn btn-primary">Submit</button>
+                    <button id="btn-list-advice" type="button" class="btn btn-primary">Get</button>
+                </div>
+                <div>
+                    <h1>delete dispatch advice</h1>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-id">Name</span>
+                        <input type="text" class="form-control" placeholder="Despatch advice ID" aria-label="ID" aria-describedby="basic-id" id="delete-id">
+                    </div>
+                    <button id="btn-delete-advice" type="button" class="btn btn-primary">Delete</button>
                 </div>
             </div>
             <div id="page-get-user">

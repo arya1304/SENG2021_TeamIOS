@@ -1,19 +1,16 @@
+// register
 document.getElementById('btn-register').addEventListener('click', async () => {
-    const email = document.getElementById('register-email').value;
-    const firstName = document.getElementById('register-first-name').value;
-    const lastName = document.getElementById('register-last-name').value;
+    const username = document.getElementById('register-name').value;
     const password = document.getElementById('register-password').value;
     
     try {
-        const response = await fetch("https://seapi.vercel.app/v1/auth/register", {
+        const response = await fetch("https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v3/users/signUp", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email: email,
-            first_name: firstName,
-            last_name: lastName,
+            username: username,
             password: password
         })
         });
@@ -33,12 +30,42 @@ document.getElementById('btn-register').addEventListener('click', async () => {
 });
 
 document.getElementById('btn-login').addEventListener('click', async () => {
+    const username = document.getElementById('register-name').value;
+    const password = document.getElementById('login-password').value;
+    
+    try {
+        const response = await fetch("https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v3/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+        });
+
+        if (!response.ok) {
+            alert('Failed to login')
+        }
+
+        const data = await response.json();
+        console.log("login response:", data);
+
+        sessionStorage.setItem("token", data.data.session.access_token);
+        showPage("main")
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+document.getElementById('btn-list-advice').addEventListener('click', async () => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
     
     try {
-        const response = await fetch("https://seapi.vercel.app/v1/auth/login", {
-        method: "POST",
+        const response = await fetch("https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v1/despatchAdvice", {
+        method: "GET",
         headers: {
             "Content-Type": "application/json"
         },
@@ -77,6 +104,32 @@ document.getElementById('btn-get-user').addEventListener('click', async() => {
 
         if (!response.ok) {
             alert('Failed to get user')
+        }
+
+        const data = await response.json();
+        console.log("user response:", data);
+
+        showPage("main")
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+document.getElementById('btn-delete-advice').addEventListener('click', async() => {
+    const despatchId = document.getElementById('delete-id').value;
+
+    try {
+        const token = sessionStorage.getItem("token");
+
+        const response = await fetch(`https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v1/despatchAdvice/${despatchId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+    });
+
+        if (!response.ok) {
+            alert('Failed to delete')
         }
 
         const data = await response.json();
