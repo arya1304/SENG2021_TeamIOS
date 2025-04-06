@@ -13,6 +13,7 @@ table = dynamodb.Table('DespatchAdviceTable') # table name might change
 def lambda_handler(event, context):
         order_document = event.get("Order", {})
         shipment_details = event.get("cac:Shipment", {})
+        username = event['RequestContext']['Authorizer']['username']
 
         # Convert JSON to Order and CacShipment objects
         try:
