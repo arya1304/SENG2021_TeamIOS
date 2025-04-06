@@ -1,37 +1,41 @@
 import json
 import boto3
+from boto3.dynamodb.conditions import Key
 
 def lambda_handler(event, context):
     
     # Retrieve the database 
-    client = boto3.client('dynamodb')
-    table_supplier = client.scan(
-        TableName='DespatchAdviceTable',
-        IndexName='Supplier'
-    )
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('DespatchAdviceTable')
 
-    # Check if event contains the supplier name, if not return response: 400
-    if 'Supplier' not in event.get('pathParameters', {}):
+    # Check if event contains the despatch ID, if not return response: 400
+    supplier_name = event.get('queryStringParameters', {}).get('Supplier')
+   
+    if not supplier_name:
         return {
             "statusCode": 400,
-            "body": "Bad Request - The despatch ID is not provided"
+            "message": "Bad Request - Supplier is not provided"
         }
 
-    # Get the name of the supplier
-    supplier_name = event['pathParameters']['Supplier']
+    response = table.query(
+            IndexName="Supplier",
+            KeyConditionExpression=Key('Supplier').eq(supplier_name)
+    )
 
-    #from the table, get all items with the same supplier
-    ids = [item['ID']['N'] for item in table_supplier.get('Items', [])]
-    if not ids:
+    # if item doesn't exist in the response, return response: 404
+    if not response.get('Items', []):
         return {
-            "statusCode": 204,
-            "body": {"message": "No despatch advices found for this supplier"}
+            "statusCode": 404,
+            "message": "Not Found - The supplier name is not found"
         }
-
     
+    items = response.get('Items', [])
+    #get only the 'ID' field from all items
+    ids = [item['ID'] for item in items]
+
     return {
         'statusCode': 200,
-        'count': "There are " + ids.count() + "Despatch Advices from " + supplier_name,
+        'count': "There are " + str(len(ids)) + " " + "Despatch Advices from " + supplier_name,
         'despatchAdvices': {
             "despatchAdvicesIDs": [f"ID: {id}" for id in ids]
         }
