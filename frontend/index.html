@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>SENG2021_IOS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="global.css" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" 
+        rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" 
+        crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="page-landing" class="page hide">
+            <div id="page-register">
+                <h1>Register</h1>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-email">Email</span>
+                    <input type="text" class="form-control" placeholder="email@email.com" aria-label="Email" aria-describedby="basic-email" id="register-email">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-firstname">Name</span>
+                    <input type="text" class="form-control" placeholder="First Name" aria-label="First Name" aria-describedby="basic-name" id="register-first-name">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-lastname">Name</span>
+                    <input type="text" class="form-control" placeholder="Last Name" aria-label="Last Name" aria-describedby="basic-name" id="register-last-name">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-password">Password</span>
+                    <input type="password" class="form-control" aria-label="Password" aria-describedby="basic-password1" id="register-password">
+                </div>
+                <button id="btn-register" type="button" class="btn btn-primary">Submit</button>
+            </div>
+            <div id="page-login">
+                <h1>Login</h1>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-email">Email</span>
+                    <input type="text" class="form-control" placeholder="email@email.com" aria-label="Email" aria-describedby="basic-email" id="login-email">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-password1">Password</span>
+                    <input type="password" class="form-control" aria-label="Password" aria-describedby="basic-password1" id="login-password">
+                </div>
+                <button id="btn-login" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <div id="page-main" class="page hide">
+            <!-- <div id="page-create-order">
+                <h1>create new order ubl</h1>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-id">Order ID</span>
+                    <input type="text" class="form-control" placeholder="Order ID" aria-label="Order ID" aria-describedby="basic-id" id="order-id">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-date">Issue Date</span>
+                    <input type="text" class="form-control" placeholder="ex. 2025-04-05 " aria-label="Issue Date" aria-describedby="basic-date" id="issue-date">
+                </div>
+                <div class="input-group mb-3">
+                    <select id="currency-select" class="form-select">
+                        <option value="AUD">AUD</option>
+                        <option value="USD">USD</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-buyer-name">Buyer name</span>
+                    <input type="text" class="form-control" placeholder="Buyer name" aria-label="Buyer name" aria-describedby="basic-buyer-name" id="buyer-name">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-buyer-email">Buyer email</span>
+                    <input type="text" class="form-control" placeholder="Buyer email" aria-label="Buyer email" aria-describedby="basic-buyer-email" id="buyer-email">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-amount">Total amount</span>
+                    <input type="text" class="form-control" placeholder="Total amount" aria-label="Total amount" aria-describedby="basic-amount" id="total-amount">
+                </div>
+                <button id="btn-create-order" type="button" class="btn btn-primary">Submit</button>
+            </div> -->
+            <div id="page-dispatch-advice">
+                <div>
+                    <h1>create dispatch advice</h1>
+                    <button id="btn-create-advice" type="button" class="btn btn-primary">Submit</button>
+                </div>
+                <div>
+                    <h1>get all list of dispatch advice</h1>
+                    <button id="btn-list-advice" type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+            <div id="page-get-user">
+                <h1>Get/Delete user information</h1>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-user-id">User ID</span>
+                    <input type="text" class="form-control" placeholder="User ID" aria-label="User ID" aria-describedby="basic-user-id" id="user-id">
+                </div>
+                <button id="btn-get-user" type="button" class="btn btn-primary">Get</button>
+                <button id="btn-delete-user" type="button" class="btn btn-primary">Delete</button>
+            </div>
+            
+        </div>
+
+
+        <script src="main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YUe2LzesAfftltw+PEaao2tjU/QATaW/rOitAq67e0CT0Zi2VVRL0oC4+gAaeBKu" crossorigin="anonymous">
+        </script>
+    </body>
+</html>
