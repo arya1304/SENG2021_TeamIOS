@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     params = event.get('queryStringParameters', {})
     
     country = params.get('country')
-    if not country:z
+    if not country:
         return {
             "statusCode": 400,
             "message": "Bad Request - Country is not provided"
