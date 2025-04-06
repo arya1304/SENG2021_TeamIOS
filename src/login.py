@@ -2,12 +2,12 @@ import boto3
 from datetime import datetime,timedelta
 import jwt
 
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+SECRET_KEY = "hello"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 def createtoken(username:str):
-    expire = datetime.now()+timedelta(hours=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now()+timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     payload = {
         "username": username,
         "expire": expire
@@ -17,9 +17,9 @@ def createtoken(username:str):
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Users') # table name might change
-    username = event['pathParameters']['Username']
-    password = event['pathParameters']['Password']
+    table = dynamodb.Table('DespacthAdviceUsers') 
+    username = event['pathParameters']['username']
+    password = event['pathParameters']['password']
 
     response = table.get_item(Key={'username' : username})
     if 'Item' not in response:
@@ -37,7 +37,7 @@ def lambda_handler(event, context):
             "body": "You have entered an incorrect password"
         }
     
-    #generate a jwt token
+    #generate a jwt token and store it in the username database
     token = createtoken(username)
 
     return {
