@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, Mock
 
-from deleteDespatchAdvice import lambda_handler
+from src.deleteDespatchAdvice import lambda_handler
 
 @pytest.fixture
 def mock_dynamodb():
