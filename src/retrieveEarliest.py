@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     response = client.scan(TableName='DespatchAdviceTable')
     items = response.get('Items', [])
 
-    items.sort(key=lambda x: x['EarliestDeliveryDate']['S'], reverse=True)
+    items.sort(key=lambda x: x['EarliestDeliveryDate']['S'])
     earliest_delivery_date = items[0]['EarliestDeliveryDate']['S']
 
     earliest_items = [item for item in items if item['EarliestDeliveryDate']['S'] == earliest_delivery_date]
