@@ -1,5 +1,5 @@
-from DespatchAdviceFactory import DespatchAdvice
-from pydanticModels import models2, models, shipmentModel
+from src.DespatchAdviceFactory import DespatchAdvice
+from src.pydanticModels import models2, models, shipmentModel
 from datetime import datetime
 from pydantic import ValidationError
 import json
@@ -8,7 +8,7 @@ import json
 def test_create_despatch_advice() -> None:
     factory = DespatchAdvice()
     # import the sample input from the json file
-    with open("input.json", "r") as file:
+    with open("src/input.json", "r") as file:
         data = json.load(file)
         
     order_data = data.get("Order")
@@ -25,7 +25,7 @@ def test_create_despatch_advice() -> None:
 
 # despatch advice when one field is missing. eg shipment or order document 
 def test_input_not_complete() -> None:
-    with open("input1.json", "r") as file:
+    with open("src/input1.json", "r") as file:
         data = json.load(file)
         
     order_data = data.get("Order")
@@ -41,7 +41,7 @@ def test_input_not_complete() -> None:
 # despatch advice when the input json has missing fields within it
 def test_type_error() -> None:
     # import the sample input from the json file
-    with open("input2.json", "r") as file:
+    with open("src/input2.json", "r") as file:
         data = json.load(file)
         
     order_data = data.get("Order")
@@ -58,7 +58,7 @@ def test_type_error() -> None:
 def test_automate_expiry_date() -> None:
     factory = DespatchAdvice()
     # import the sample input from the json file
-    with open("input.json", "r") as file:
+    with open("src/input.json", "r") as file:
         data = json.load(file)
         
     order_data = data.get("Order")
@@ -86,7 +86,7 @@ def test_automate_expiry_date() -> None:
 def test_automate_requested_delivery_period() -> None:
     factory = DespatchAdvice()
     # import the sample input from the json file
-    with open("input3.json", "r") as file:
+    with open("src/input3.json", "r") as file:
         data = json.load(file)
         
     order_data = data.get("Order")
