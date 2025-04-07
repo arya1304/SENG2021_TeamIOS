@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import patch, Mock
-# need to be changed
-from retrieveEarliest import lambda_handler
+from retrieveLastest import lambda_handler
 
 TABLE_NAME = "DespatchAdviceTable"
 
@@ -14,15 +13,15 @@ def mock_dynamodb():
         "Items": [
             {
                 "ID": {"S": "1"},
-                "EarliestDeliveryDate": {"S": "2025-04-08"}
+                "LatestDeliveryDate": {"S": "2025-04-08"}
             },
             {
                 "ID": {"S": "2"},
-                "EarliestDeliveryDate": {"S": "2025-04-07"}
+                "LatestDeliveryDate": {"S": "2025-04-07"}
             },
             {
                 "ID": {"S": "3"},
-                "EarliestDeliveryDate": {"S": "2025-04-06"}
+                "LatestDeliveryDate": {"S": "2025-04-06"}
             }
         ]
     }
@@ -37,7 +36,7 @@ def test_retrieve_success(mock_boto_client, mock_dynamodb):
     response = lambda_handler({}, {})
 
     assert response["statusCode"] == 200
-    assert response["count"] == "There are 1 despatch advices with the earliest delivery date: 2025-04-06"
+    assert response["count"] == "There are 1 despatch advices with the latest delivery date: 2025-04-08"
     assert response["despatchAdvices"] == {
-        "despatchAdvicesIDs": ["ID: 3"]
+        "despatchAdvicesIDs": ["ID: 1"]
     }
