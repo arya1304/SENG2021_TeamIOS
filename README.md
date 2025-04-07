@@ -23,7 +23,7 @@ New Features (Sprint 3)
 - retrieve the despatch advice with the latest delivery
 - retrieve all despatch advices who have the same supplier
 
-Here is our postman: https://documenter.getpostman.com/view/43144982/2sAYkBth9E
+Here is our postman: https://documenter.getpostman.com/view/43144982/2sB2cUCPMB
 - This postman details all the expected inputs and responses
 
 Swagger.yaml -> inside the src
