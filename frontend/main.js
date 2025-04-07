@@ -22,15 +22,15 @@ document.getElementById('btn-register').addEventListener('click', async () => {
         const data = await response.json();
         console.log("register response:", data);
 
-        sessionStorage.setItem("token", data.data.session.access_token);
         showPage("main")
     } catch (err) {
         console.error(err.message);
     }
 });
 
+// login
 document.getElementById('btn-login').addEventListener('click', async () => {
-    const username = document.getElementById('register-name').value;
+    const username = document.getElementById('login-name').value;
     const password = document.getElementById('login-password').value;
     
     try {
@@ -52,37 +52,44 @@ document.getElementById('btn-login').addEventListener('click', async () => {
         const data = await response.json();
         console.log("login response:", data);
 
-        sessionStorage.setItem("token", data.data.session.access_token);
+        sessionStorage.setItem("token", data.token);
         showPage("main")
     } catch (err) {
         console.error(err.message);
     }
 });
 
-document.getElementById('btn-list-advice').addEventListener('click', async () => {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    
+document.getElementById('btn-list-advice').addEventListener('click', async () => {    
     try {
-        const response = await fetch("https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v1/despatchAdvice", {
+        const token = sessionStorage.getItem("token");
+
+        const response = await fetch("https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v3/despatchAdvice", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
+            Authorization: token
+        }
         });
 
         if (!response.ok) {
-            alert('Failed to login')
+            alert('Failed to get lists')
         }
 
         const data = await response.json();
-        console.log("login response:", data);
+        console.log(data.despatchAdvicesIDs);
+        console.log("get list advices response:", data);
 
-        sessionStorage.setItem("token", data.data.session.access_token);
+        const listContainer = document.getElementById("despatch-list");
+        listContainer.innerHTML = "";
+
+        const ids = data.despatchAdvices.despatchAdvicesIDs;
+
+        ids.forEach((idText) => {
+            const li = document.createElement("li");
+            li.textContent = idText;
+            listContainer.appendChild(li);
+        });
+
+
         showPage("main")
     } catch (err) {
         console.error(err.message);
