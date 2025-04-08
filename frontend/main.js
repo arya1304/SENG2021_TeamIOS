@@ -45,17 +45,19 @@ document.getElementById('btn-login').addEventListener('click', async () => {
         })
         });
 
-        if (!response.ok) {
-            alert('Failed to login')
-        }
-
         const data = await response.json();
         console.log("login response:", data);
+
+        if (data.statusCode !== 200) {
+            alert(data.body || "Login failed");
+            return;
+        }
 
         sessionStorage.setItem("token", data.token);
         showPage("main")
     } catch (err) {
         console.error(err.message);
+        alert("An unexpected error occurred during login.");
     }
 });
 
@@ -96,6 +98,89 @@ document.getElementById('btn-list-advice').addEventListener('click', async () =>
     }
 });
 
+
+document.getElementById('btn-items').addEventListener('click', async() => {
+    const despatchId = document.getElementById('items-id').value;
+    
+    try {
+        const token = sessionStorage.getItem("token");
+        
+        const response = await fetch(`https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v3/despatchAdvice/${despatchId}/items`, {
+            method: "GET",
+            headers: {
+                Authorization: token
+            }
+        });
+        
+        if (response.status !== 200) {
+            alert('Failed to get items')
+            return;
+        }
+        
+        const data = await response.json();
+        console.log("user response:", data);
+
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data.Items, "application/xml");
+        
+        const list = document.getElementById("items-list");
+        list.innerHTML = ""; // 기존 내용 초기화
+
+        const item = xmlDoc.getElementsByTagName("Item")[0];
+
+        if (item) {
+            const name = item.getElementsByTagName("cbc:Name")[0]?.textContent || "N/A";
+            const description = item.getElementsByTagName("cbc:Description")[0]?.textContent || "N/A";
+            const buyerID = item.getElementsByTagName("cbc:ID")[0]?.textContent || "N/A";
+            const sellerID = item.getElementsByTagName("cac:SellersItemIdentification")[0]?.getElementsByTagName("cbc:ID")[0]?.textContent || "N/A";
+            const lotNumber = item.getElementsByTagName("cbc:LotNumberID")[0]?.textContent || "N/A";
+            const expiryDate = item.getElementsByTagName("cbc:ExpiryDate")[0]?.textContent || "N/A";
+
+            const details = `
+                <li><strong>Name:</strong> ${name}</li>
+                <li><strong>Description:</strong> ${description}</li>
+                <li><strong>Buyer ID:</strong> ${buyerID}</li>
+                <li><strong>Seller ID:</strong> ${sellerID}</li>
+                <li><strong>Lot Number:</strong> ${lotNumber}</li>
+                <li><strong>Expiry Date:</strong> ${expiryDate}</li>
+            `;
+            list.innerHTML = details;
+        } else {
+            list.innerHTML = "<li>No item found.</li>";
+        }
+
+        showPage("main");
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
+document.getElementById('btn-delete-user').addEventListener('click', async() => {
+    const id = document.getElementById('user-id').value;
+    
+    try {
+        const token = sessionStorage.getItem("token");
+        
+        const response = await fetch(`https://seapi.vercel.app/v1/user/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            alert('Failed to delete user')
+        }
+        
+        const data = await response.json();
+        console.log("user response:", data);
+        
+        showPage("main")
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 document.getElementById('btn-get-user').addEventListener('click', async() => {
     const id = document.getElementById('user-id').value;
 
@@ -121,219 +206,6 @@ document.getElementById('btn-get-user').addEventListener('click', async() => {
         console.error(err.message);
     }
 })
-
-document.getElementById('btn-delete-advice').addEventListener('click', async() => {
-    const despatchId = document.getElementById('delete-id').value;
-
-    try {
-        const token = sessionStorage.getItem("token");
-
-        const response = await fetch(`https://t6r6w5zni9.execute-api.us-east-1.amazonaws.com/v1/despatchAdvice/${despatchId}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-    });
-
-        if (!response.ok) {
-            alert('Failed to delete')
-        }
-
-        const data = await response.json();
-        console.log("user response:", data);
-
-        showPage("main")
-    } catch (err) {
-        console.error(err.message);
-    }
-})
-
-document.getElementById('btn-delete-user').addEventListener('click', async() => {
-    const id = document.getElementById('user-id').value;
-
-    try {
-        const token = sessionStorage.getItem("token");
-
-        const response = await fetch(`https://seapi.vercel.app/v1/user/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-    });
-
-        if (!response.ok) {
-            alert('Failed to delete user')
-        }
-
-        const data = await response.json();
-        console.log("user response:", data);
-
-        showPage("main")
-    } catch (err) {
-        console.error(err.message);
-    }
-})
-
-// document.getElementById('btn-create-order').addEventListener('click', async () => {
-//     const id = document.getElementById('order-id').value;
-//     const date = document.getElementById('issue-date').value;
-//     const currency = document.getElementById('currency-select').value;
-//     const name = document.getElementById('buyer-name').value;
-//     const email = document.getElementById('buyer-email').value;
-//     const totalAmount = document.getElementById('total-amount').value;
-
-//     const orderPayload = {
-//         "_D": "urn:oasis:names:specification:ubl:schema:xsd:Order-2",
-//         "_S": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-//         "_B": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-//         "Order": [
-//             {
-//                 "UBLVersionID": [
-//                     {
-//                         "IdentifierContent": "1",
-//                         "IdentificationSchemeAgencyIdentifier": "1",
-//                         "IdentificationSchemeIdentifier": "1"
-//                     }
-//                 ],
-//                 "CustomizationID": [
-//                     {
-//                         "IdentifierContent": "1",
-//                         "IdentificationSchemeAgencyIdentifier": "1",
-//                         "IdentificationSchemeIdentifier": "1"
-//                     }
-//                 ],
-//                 "ProfileID": [
-//                     {
-//                         "IdentifierContent": "1",
-//                         "IdentificationSchemeAgencyIdentifier": "1",
-//                         "IdentificationSchemeIdentifier": "1"
-//                     }
-//                 ],
-//                 "ID": [
-//                     {
-//                         "IdentifierContent": id
-//                     }
-//                 ],
-//                 "IssueDate": [
-//                     {
-//                         "DateContent": date
-//                     }
-//                 ],
-//                 "DocumentCurrencyCode": [
-//                     {
-//                         "CodeContent": currency
-//                     }
-//                 ],
-//                 "BuyerCustomerParty": [
-//                     {
-//                         "Party": [
-//                             {
-//                                 "PartyName": [
-//                                     {
-//                                         "Name": [
-//                                             {
-//                                                 "TextContent": name
-//                                             }
-//                                         ]
-//                                     }
-//                                 ],
-//                                 "Contact": [
-//                                     {
-//                                         "ElectronicMail": [
-//                                             {
-//                                                 "TextContent": email
-//                                             }
-//                                         ]
-//                                     }
-//                                 ]
-//                             }
-//                         ]
-//                     }
-//                 ],
-//                 "SellerSupplierParty": [
-//                     {
-//                         "Party": [
-//                             {
-//                                 "PartyName": [
-//                                     {
-//                                         "Name": [
-//                                             {
-//                                                 "TextContent": "supplier"
-//                                             }
-//                                         ]
-//                                     }
-//                                 ]
-//                             }
-//                         ]
-//                     }
-//                 ],
-//                 "OrderLine": [
-//                     {
-//                         "Note": [
-//                             {
-//                                 "TextContent": "Test line item"
-//                             }
-//                         ],
-//                         "LineItem": [
-//                             {
-//                                 "ID": [
-//                                     {
-//                                         "IdentifierContent": "1"
-//                                     }
-//                                 ],
-//                                 "Quantity": [
-//                                     {
-//                                         "QuantityContent": 1,
-//                                         "QuantityUnitCode": "EA"
-//                                     }
-//                                 ],
-//                                 "LineExtensionAmount": [
-//                                     {
-//                                         "AmountContent": parseFloat(totalAmount),
-//                                         "AmountCurrencyIdentifier": currency
-//                                     }
-//                                 ]
-//                             }
-//                         ]
-//                     }
-//                 ],
-//                 "AnticipatedMonetaryTotal": [
-//                     {
-//                         "PayableAmount": [
-//                             {
-//                                 "AmountContent": parseFloat(totalAmount),
-//                                 "AmountCurrencyIdentifier": currency
-//                             }
-//                         ]
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-
-//     try {
-//         const token = sessionStorage.getItem("token");
-//         const response = await fetch("https://seapi.vercel.app/v1/order", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${token}`
-//         },
-//         body: JSON.stringify(orderPayload)
-//         });
-
-//         if (!response.ok) {
-//             alert('Failed to create order')
-//         }
-//         const data = await response.json();
-//         console.log("create order response:", data);
-
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// });
-
-
 
 const callProtectedAPI = async () => {
     const token = localStorage.getItem("token");
