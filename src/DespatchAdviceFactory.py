@@ -1,8 +1,8 @@
-from pydanticModels import models2, models, shipmentModel
+from src.pydanticModels import models2, models, shipmentModel
 import uuid
 from datetime import datetime
 import random
-from toXmlFormat import replace_specialchars
+from src.toXmlFormat import replace_specialchars
 from dict2xml import dict2xml
 import json
 

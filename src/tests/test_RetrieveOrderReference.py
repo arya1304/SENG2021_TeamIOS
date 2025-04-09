@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, Mock
 
-from retrieveOrderReference import lambda_handler
+from src.retrieveOrderReference import lambda_handler
 
 @pytest.fixture
 def mock_dynamodb():

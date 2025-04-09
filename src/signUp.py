@@ -2,9 +2,9 @@ import boto3
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Users') # table name might change
-    username = event.get('Username')
-    password = event.get('Password')
+    table = dynamodb.Table('DespatchAdviceUsers') # table name might change
+    username = event.get('username')
+    password = event.get('password')
 
     #need to hash the pass word and place it securley
     if not username:
@@ -29,5 +29,5 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "message" : "Congratualtions you have signed in"
+        "message" : "Congratualtions you have signed up"
     }
