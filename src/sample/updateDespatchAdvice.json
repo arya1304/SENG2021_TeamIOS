@@ -1,0 +1,167 @@
+{
+    "DespatchAdvice": {
+      "field_xmlns_cbc": "urn:oasis:names:specification:ubl:schema:xsd:Order-2",
+      "field_xmlns_cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+      "field_xmlns": "urn:oasis:names:specification:ubl:schema:xsd:Order-2",
+      "cbc_UBLVersionID": "2.0",
+      "cbc_CustomizationID": "",
+      "cbc_ProfileID": "bpid:urn:oasis:names:draft:bpss:ubl-2-sample-international-scenario",
+      "cbc_ID": "984",
+      "cbc_CopyIndicator": "false",
+      "cbc_UUID": "68a98cd5-d7c0-48e6-a09a-aa76e6e1b821",
+      "cbc_IssueDate": "2025-04-16",
+      "cbc_DocumentStatusCode": "NoStatus",
+      "cbc_DespatchAdviceTypeCode": "delivery",
+      "cbc_Note": "N/A",
+      "cac_OrderReference": {
+        "cbc_ID": "AEG012345",
+        "cbc_SalesOrderID": "A",
+        "cbc_UUID": "6E09886B-DC6E-439F-82D1-7CCAC7F4E3B1",
+        "cbc_IssueDate": "2005-06-20"
+      },
+      "cac_DespatchSupplierParty": {
+        "cbc_CustomerAssignedAccountID": "CO001",
+        "cac_Party": {
+          "cac_PartyName": {
+            "cbc_Name": "The Terminus"
+          },
+          "cac_PostalAddress": {
+            "cbc_StreetName": "Avon Way",
+            "cbc_BuildingName": "Thereabouts",
+            "cbc_BuildingNumber": "56A",
+            "cbc_CityName": "Bridgtow",
+            "cbc_PostalZone": "ZZ99 1ZZ",
+            "cbc_CountrySubentity": "Avon",
+            "cac_AddressLine": {
+              "cbc_Line": "3rd Floor, Room 5"
+            },
+            "cac_Country": {
+              "cbc_IdentificationCode": "GB"
+            }
+          },
+          "cac_PartyTaxScheme": {
+            "cbc_RegistrationName": "Bridgtow District Council",
+            "cbc_CompanyID": "12356478",
+            "cbc_ExemptionReason": "Local Authority",
+            "cac_TaxScheme": {
+              "cbc_ID": "UK VAT",
+              "cbc_TaxTypeCode": "VAT"
+            }
+          },
+          "cac_Contact": {
+            "cbc_Name": "S Massiah",
+            "cbc_Telephone": "+ 44 127 98876545",
+            "cbc_Telefax": "+ 44 127 98876546",
+            "cbc_ElectronicMail": "smassiah@the-email.co.uk"
+          }
+        }
+      },
+      "cac_DeliveryCustomerParty": {
+        "cbc_CustomerAssignedAccountID": "XFB01",
+        "cbc_SupplierAssignedAccountID": "GT00978567",
+        "cac_Party": {
+          "cac_PartyName": {
+            "cbc_Name": "IYT Corporation"
+          },
+          "cac_PostalAddress": {
+            "cbc_StreetName": "Avon Way",
+            "cbc_BuildingName": "Thereabouts",
+            "cbc_BuildingNumber": "56A",
+            "cbc_CityName": "Bridgtow",
+            "cbc_PostalZone": "ZZ99 1ZZ",
+            "cbc_CountrySubentity": "Avon",
+            "cac_AddressLine": {
+              "cbc_Line": "3rd Floor, Room 5"
+            },
+            "cac_Country": {
+              "cbc_IdentificationCode": "GB"
+            }
+          },
+          "cac_PartyTaxScheme": {
+            "cbc_RegistrationName": "N/A",
+            "cbc_CompanyID": "1183",
+            "cbc_ExemptionReason": "N/A",
+            "cac_TaxScheme": {
+              "cbc_ID": "15",
+              "cbc_TaxTypeCode": "15"
+            }
+          },
+          "cac_Contact": {
+            "cbc_Name": "Mr Fred Churchill",
+            "cbc_Telephone": "+44 127 2653214",
+            "cbc_Telefax": "+44 127 2653215",
+            "cbc_ElectronicMail": "fred@iytcorporation.gov.uk"
+          }
+        }
+      },
+      "cac_Shipment": {
+        "cbc_ID": "1",
+        "cac_Consignment": {
+          "cbc_ID": "1"
+        },
+        "cac_Delivery": {
+          "cac_DeliveryAddress": {
+            "cbc_StreetName": "Avon Way",
+            "cbc_BuildingName": "Thereabouts",
+            "cbc_BuildingNumber": "56A",
+            "cbc_CityName": "Bridgtow",
+            "cbc_PostalZone": "ZZ99 1ZZ",
+            "cbc_CountrySubentity": "Avon",
+            "cac_AddressLine": {
+              "cbc_Line": "3rd Floor, Room 5"
+            },
+            "cac_Country": {
+              "cbc_IdentificationCode": "GB"
+            }
+          },
+          "cac_RequestedDeliveryPeriod": {
+            "cbc_StartDate": "2005-06-20",
+            "cbc_StartTime": "10:30:47.0Z",
+            "cbc_EndDate": "2005-06-21",
+            "cbc_EndTime": "10:30:47.0Z"
+          }
+        }
+      },
+      "cac_DespatchLine": {
+        "cbc_ID": "1",
+        "cbc_Note": "this is an illustrative order line",
+        "cbc_LineStatusCode": "NoStatus",
+        "cbc_DeliveredQuantity": {
+          "field_unitCode": "KGM",
+          "text": "100"
+        },
+        "cbc_BackorderQuantity": {
+          "field_unitCode": "KGM",
+          "text": "0"
+        },
+        "cbc_BackorderReason": "N/A",
+        "cac_OrderLineReference": {
+          "cbc_LineID": "",
+          "cbc_SalesOrderLineID": "",
+          "cac_OrderReference": {
+            "cbc_ID": "AEG012345",
+            "cbc_SalesOrderID": "A",
+            "cbc_UUID": "6E09886B-DC6E-439F-82D1-7CCAC7F4E3B1",
+            "cbc_IssueDate": "2005-06-20"
+          }
+        },
+        "cac_Item": {
+          "cbc_Description": "Beeswax",
+          "cbc_Name": "Acme Beeswax",
+          "cac_BuyersItemIdentification": {
+            "cbc_ID": "6578489"
+          },
+          "cac_SellersItemIdentification": {
+            "cbc_ID": "17589683"
+          },
+          "cac_ItemInstance": {
+            "cac_LotIdentification": {
+              "cbc_LotNumberID": "4",
+              "cbc_ExpiryDate": "2035-04-16"
+            }
+          }
+        }
+      }
+    }
+  }
+  
